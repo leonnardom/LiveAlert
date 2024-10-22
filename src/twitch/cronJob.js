@@ -12,6 +12,8 @@ const { checkTwitchLive } = require('./checkLive');
 const fs = require('fs');
 const filePath = './notifiedLives.json';
 
+const cron = require('node-cron');
+
 let notifiedLives = [];
 
 function loadNotifiedLives() {
@@ -38,26 +40,34 @@ function hasLiveBeenNotified(liveId) {
 }
 
 async function VerifyCronJob() {
-  const liveData = await checkTwitchLive();
+  cron.schedule('*/5 * * * *', async () => {
+    logInfo('Verificando se o canal está ao vivo...');
 
-  if (liveData && !hasLiveBeenNotified(liveData.id)) {
-    const message =
-      `Canal ao Vivo na Twitch: ${liveData.title}\n` +
-      `Visualizações: ${liveData.viewer_count}\n` +
-      `Link da Thumbnail: ${liveData.thumbnail_url}\n` +
-      `Jogo: ${liveData.game_name}`;
+    const liveData = await checkTwitchLive();
 
-    await VerifyClients(message);
+    if (liveData && !hasLiveBeenNotified(liveData.id)) {
+      const message =
+        `Canal ao Vivo na Twitch: ${liveData.title}\n` +
+        `Visualizações: ${liveData.viewer_count}\n` +
+        `Link da Thumbnail: ${liveData.thumbnail_url}\n` +
+        `Jogo: ${liveData.game_name}`;
 
-    saveLiveAsNotified({
-      id: liveData.id,
-      title: liveData.title,
-      started_at: liveData.started_at,
-      game_name: liveData.game_name,
-      thumbnail_url: liveData.thumbnail_url,
-      viewer_count: liveData.viewer_count
-    });
-  }
+      await VerifyClients(message);
+
+      saveLiveAsNotified({
+        id: liveData.id,
+        title: liveData.title,
+        started_at: liveData.started_at,
+        game_name: liveData.game_name,
+        thumbnail_url: liveData.thumbnail_url,
+        viewer_count: liveData.viewer_count
+      });
+    }
+  });
+
+  logInfo(
+    'Cronjob de verificação de live configurado para rodar a cada 5 minutos.'
+  );
 }
 
 async function DiscordNotification(discord, message) {

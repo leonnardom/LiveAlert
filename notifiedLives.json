@@ -6,5 +6,21 @@
     "game_name": "",
     "thumbnail_url": "https://static-cdn.jtvnw.net/previews-ttv/live_user_zafrielbot-1280x720.jpg",
     "viewer_count": 1
+  },
+  {
+    "id": "43145692713",
+    "title": "",
+    "started_at": "2024-10-22T07:38:10Z",
+    "game_name": "",
+    "thumbnail_url": "https://static-cdn.jtvnw.net/previews-ttv/live_user_zafrielbot-1280x720.jpg",
+    "viewer_count": 0
+  },
+  {
+    "id": "43145694521",
+    "title": "Testando Sistema",
+    "started_at": "2024-10-22T07:40:13Z",
+    "game_name": "League of Legends",
+    "thumbnail_url": "https://static-cdn.jtvnw.net/previews-ttv/live_user_zafrielbot-1280x720.jpg",
+    "viewer_count": 0
   }
 ]
